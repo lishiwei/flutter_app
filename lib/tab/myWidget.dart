@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,6 @@ class MyState extends State<MyWidget> {
     return Container(
       margin: EdgeInsets.all(20),
       child: Row(
-
         children: <Widget>[
           Expanded(
             child: Row(
@@ -56,52 +56,67 @@ class MyState extends State<MyWidget> {
   ];
   List<PetAdoptionBean> petAdoptions = [
     PetAdoptionBean("我的送养", "8"),
-    PetAdoptionBean("我的申请", ""),
-    PetAdoptionBean("我的收藏", ""),
-    PetAdoptionBean("领养问卷", "")
+    PetAdoptionBean("我的申请", "0"),
+    PetAdoptionBean("我的收藏", "0"),
+    PetAdoptionBean("领养问卷", "0")
   ];
-
+Widget getBadgeWidget(int number){
+  if (number==0) {
+    return Text("");
+  }  else{
+    return Badge(
+      badgeContent: Text(number.toString()),
+    );
+  }
+}
   Widget getPetAdoptionItem(PetAdoptionBean petAdoptionBean) {
-    return
-    Container(
-      margin: EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        
-        borderRadius: BorderRadius.all(Radius.circular(10))),
+    return Stack(children: <Widget>[
+      Container(
+        margin: EdgeInsets.all(4),
+        decoration: BoxDecoration(
+            color: Colors.grey,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Center(
+          child: Text(
+            petAdoptionBean.title,
+          ),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.all(4),
 
-      child:Center(
-        child: Text(petAdoptionBean.title,),
-      ) ,
-    )
-       ;
+        child: Align(
+          // child: Text(petAdoptionBean.number,style: TextStyle(color: Colors.red),),
+          child: getBadgeWidget(int.parse(petAdoptionBean.number)),
+          alignment: Alignment.topRight,
+        ),
+      )
 
+    ]
+    );
   }
 
-  Widget getfeed() {
+  Widget getPetAdpot() {
     return Container(
-
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-      ),
-      child:  GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(  // 注意，使用了GridView.builder，又要设置网格属性的话，要用这个属性！
-    crossAxisCount: 2,
-    mainAxisSpacing: 0.0,
-    crossAxisSpacing: 0.0,
-        childAspectRatio: 3/1
-    ),
-    shrinkWrap: true,
-
-        physics: NeverScrollableScrollPhysics(),
-    itemCount: petAdoptions.length,
-        itemBuilder: (context,index){
-
-        return getPetAdoptionItem(petAdoptions[index]);
-        },
-    ));
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+        ),
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            // 注意，使用了GridView.builder，又要设置网格属性的话，要用这个属性！
+              crossAxisCount: 2,
+              mainAxisSpacing: 0.0,
+              crossAxisSpacing: 0.0,
+              childAspectRatio: 3 / 1),
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: petAdoptions.length,
+          itemBuilder: (context, index) {
+            return getPetAdoptionItem(petAdoptions[index]);
+          },
+        ));
   }
 
   @override
@@ -167,75 +182,78 @@ class MyState extends State<MyWidget> {
               ),
               Expanded(
                 child: Container(
-                  color: Colors.white,
+                  color: Color(0xefeff4),
                 ),
               )
             ],
           ),
-          Scrollbar(child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            reverse: true,
-            padding: EdgeInsets.all(0.0),
-            physics: BouncingScrollPhysics(),
-            child:  Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 110, bottom: 0),
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-              ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Row(children: <Widget>[
-                            Container(
-                              child: Text("我的宠物"),
-                              margin: EdgeInsets.only(
-                                  left: 10, right: 0, top: 0, bottom: 0),
-                            ),
-                            Container(
-                              child: Image(
-                                image: AssetImage("images/icon_add.png"),
-                                width: 20,
-                                height: 20,
+          Scrollbar(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              reverse: true,
+              padding: EdgeInsets.all(0.0),
+              physics: BouncingScrollPhysics(),
+              child: Container(
+                margin:
+                EdgeInsets.only(left: 20, right: 20, top: 110, bottom: 0),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Row(children: <Widget>[
+                              Container(
+                                child: Text("我的宠物"),
+                                margin: EdgeInsets.only(
+                                    left: 10, right: 0, top: 0, bottom: 0),
                               ),
-                              margin: EdgeInsets.only(
-                                  left: 10, right: 0, top: 0, bottom: 0),
-                            )
-                          ]),
-                        ),
-                        Text("aaaa"),
-                        Image(
-                          image: AssetImage("images/icon_next_gray.png"),
-                        )
-                        // Expanded(child: Text("")),
-                      ],
+                              Container(
+                                child: Image(
+                                  image: AssetImage("images/icon_add.png"),
+                                  width: 20,
+                                  height: 20,
+                                ),
+                                margin: EdgeInsets.only(
+                                    left: 10, right: 0, top: 0, bottom: 0),
+                              )
+                            ]),
+                          ),
+                          Text("aaaa"),
+                          Image(
+                            image: AssetImage("images/icon_next_gray.png"),
+                          )
+                          // Expanded(child: Text("")),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    color: Colors.white,
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-
-                      children: cats
-                          .map<Widget>((catBean) => getCatItem(catBean))
-                          .toList(),
+                    Container(
+                      color: Colors.white,
+                      child: ListView(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        children: cats
+                            .map<Widget>((catBean) => getCatItem(catBean))
+                            .toList(),
+                      ),
                     ),
-                  ),
-                  Padding(padding: EdgeInsets.all(10),),
-                  getfeed(),
-                ],
-                crossAxisAlignment: CrossAxisAlignment.start,
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                    ),
+                    getPetAdpot(),
+                  ],
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                ),
               ),
             ),
-          ),)
-
+          )
         ],
       ),
     );
