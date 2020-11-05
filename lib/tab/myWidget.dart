@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Adapt.dart';
+import 'package:flutter_app/Bean/Pet.dart';
+
+import '../page/my_pet_widget.dart';
 
 class MyWidget extends StatefulWidget {
   @override
@@ -21,31 +24,41 @@ class MyState extends State<MyWidget> {
   }
 
   Widget getCatItem(CatBean catBean) {
-    return Container(
-      margin: EdgeInsets.all(20),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Image(
-                  image: NetworkImage(
-                      "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2620302238,382482214&fm=26&gp=0.jpg"),
-                  height: 50,
-                  width: 50,
-                ),
-                Padding(padding: EdgeInsets.all(4)),
-                Column(
-                  children: <Widget>[Text("我是主子名"), Text("1岁6 个月")],
-                )
-              ],
+    return InkWell(
+      child: Container(
+        margin: EdgeInsets.all(10),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Row(
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image(
+                      image: NetworkImage(
+                          "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2620302238,382482214&fm=26&gp=0.jpg"),
+                      height: 40,
+                      width: 40,
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(4)),
+                  Column(
+                    children: <Widget>[Text("我是主子名"), Text("1岁6 个月")],
+                  )
+                ],
+              ),
             ),
-          ),
-          Image(
-            image: AssetImage("images/icon_next_gray.png"),
-          )
-        ],
+            Image(
+              image: AssetImage("images/icon_next_gray.png"),
+            )
+          ],
+        ),
       ),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (buildContext) {
+          return MyPetWidget();
+        }));
+      },
     );
   }
 
@@ -60,21 +73,23 @@ class MyState extends State<MyWidget> {
     PetAdoptionBean("我的收藏", "0"),
     PetAdoptionBean("领养问卷", "0")
   ];
-Widget getBadgeWidget(int number){
-  if (number==0) {
-    return Text("");
-  }  else{
-    return Badge(
-      badgeContent: Text(number.toString()),
-    );
+
+  Widget getBadgeWidget(int number) {
+    if (number == 0) {
+      return Text("");
+    } else {
+      return Badge(
+        badgeContent: Text(number.toString()),
+      );
+    }
   }
-}
+
   Widget getPetAdoptionItem(PetAdoptionBean petAdoptionBean) {
     return Stack(children: <Widget>[
       Container(
         margin: EdgeInsets.all(4),
         decoration: BoxDecoration(
-            color: Colors.grey,
+            color: Colors.grey[300],
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Center(
           child: Text(
@@ -84,16 +99,13 @@ Widget getBadgeWidget(int number){
       ),
       Container(
         margin: EdgeInsets.all(4),
-
         child: Align(
           // child: Text(petAdoptionBean.number,style: TextStyle(color: Colors.red),),
           child: getBadgeWidget(int.parse(petAdoptionBean.number)),
           alignment: Alignment.topRight,
         ),
       )
-
-    ]
-    );
+    ]);
   }
 
   Widget getPetAdpot() {
@@ -103,20 +115,133 @@ Widget getBadgeWidget(int number){
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10)),
         ),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            // 注意，使用了GridView.builder，又要设置网格属性的话，要用这个属性！
-              crossAxisCount: 2,
-              mainAxisSpacing: 0.0,
-              crossAxisSpacing: 0.0,
-              childAspectRatio: 3 / 1),
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: petAdoptions.length,
-          itemBuilder: (context, index) {
-            return getPetAdoptionItem(petAdoptions[index]);
-          },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(padding: EdgeInsets.all(10)),
+            Text("   宠物领养"),
+            Container(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    // 注意，使用了GridView.builder，又要设置网格属性的话，要用这个属性！
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 5.0,
+                    crossAxisSpacing: 5.0,
+                    childAspectRatio: 3 / 1),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: petAdoptions.length,
+                itemBuilder: (context, index) {
+                  return getPetAdoptionItem(petAdoptions[index]);
+                },
+              ),
+              padding:
+                  EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+            )
+          ],
         ));
+  }
+
+  Widget getMenu() {
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          Container(
+            child: Row(
+              children: [
+                Image(
+                  image: AssetImage(
+                    "images/icon_home_message.png",
+                  ),
+                  height: 30,
+                  width: 30,
+                ),
+                Text("加入志愿者"),
+                Expanded(child: Text("")),
+                Image(
+                  image: AssetImage("images/icon_next_gray.png"),
+                  height: 30,
+                  width: 30,
+                )
+              ],
+            ),
+            height: 50,
+          ),
+          Divider(height: 2, color: Colors.blueGrey),
+          Container(
+            child: Row(
+              children: [
+                Image(
+                  image: AssetImage(
+                    "images/icon_home_message.png",
+                  ),
+                  height: 30,
+                  width: 30,
+                ),
+                Text("设置"),
+                Expanded(child: Text("")),
+                Image(
+                  image: AssetImage("images/icon_next_gray.png"),
+                  height: 30,
+                  width: 30,
+                )
+              ],
+            ),
+            height: 50,
+          ),
+          Divider(height: 2, color: Colors.blueGrey),
+          Container(
+            height: 50,
+            child: Row(
+              children: [
+                Image(
+                  image: AssetImage(
+                    "images/icon_home_message.png",
+                  ),
+                  height: 30,
+                  width: 30,
+                ),
+                Text("使用说明"),
+                Expanded(child: Text("")),
+                Image(
+                  image: AssetImage("images/icon_next_gray.png"),
+                  height: 30,
+                  width: 30,
+                )
+              ],
+            ),
+          ),
+          Divider(height: 2, color: Colors.blueGrey),
+          Container(
+            child: Row(
+              children: [
+                Image(
+                  image: AssetImage(
+                    "images/icon_home_message.png",
+                  ),
+                  height: 30,
+                  width: 30,
+                ),
+                Text("联系客服"),
+                Expanded(child: Text("")),
+                Image(
+                  image: AssetImage("images/icon_next_gray.png"),
+                  height: 30,
+                  width: 30,
+                )
+              ],
+            ),
+            height: 50,
+          )
+        ],
+      ),
+      margin: EdgeInsets.only(
+        top: 20,
+        bottom: 20,
+      ),
+      padding: EdgeInsets.only(left: 10, right: 10),
+    );
   }
 
   @override
@@ -133,7 +258,7 @@ Widget getBadgeWidget(int number){
               Container(
                 color: Colors.blue,
                 padding:
-                EdgeInsets.only(left: 20, top: 30, right: 20, bottom: 0),
+                    EdgeInsets.only(left: 20, top: 30, right: 20, bottom: 0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -159,7 +284,7 @@ Widget getBadgeWidget(int number){
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey, width: 1),
+                          border: Border.all(color: Colors.grey[300], width: 1),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Row(
                         children: <Widget>[
@@ -174,7 +299,7 @@ Widget getBadgeWidget(int number){
                       margin: EdgeInsets.only(
                           left: 0, right: 00, top: 00, bottom: 0),
                       padding:
-                      EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 2),
+                          EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 2),
                     )
                   ],
                 ),
@@ -182,7 +307,7 @@ Widget getBadgeWidget(int number){
               ),
               Expanded(
                 child: Container(
-                  color: Color(0xefeff4),
+                  color: Colors.grey[300],
                 ),
               )
             ],
@@ -195,12 +320,12 @@ Widget getBadgeWidget(int number){
               physics: BouncingScrollPhysics(),
               child: Container(
                 margin:
-                EdgeInsets.only(left: 20, right: 20, top: 110, bottom: 0),
+                    EdgeInsets.only(left: 20, right: 20, top: 110, bottom: 0),
                 child: Column(
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Colors.grey[300],
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10)),
@@ -235,19 +360,27 @@ Widget getBadgeWidget(int number){
                     ),
                     Container(
                       color: Colors.white,
-                      child: ListView(
+                      child: ListView.separated(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
+                        separatorBuilder: (context, index) {
+                          return Divider(
+                            height: 2,
+                            color: Colors.grey,
+                          );
+                        },
                         physics: NeverScrollableScrollPhysics(),
-                        children: cats
-                            .map<Widget>((catBean) => getCatItem(catBean))
-                            .toList(),
+                        itemCount: cats.length,
+                        itemBuilder: (_, index) {
+                          return getCatItem(cats.elementAt(index));
+                        },
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(10),
                     ),
                     getPetAdpot(),
+                    getMenu()
                   ],
                   crossAxisAlignment: CrossAxisAlignment.start,
                 ),
@@ -260,18 +393,4 @@ Widget getBadgeWidget(int number){
   }
 }
 
-class CatBean {
-  String name;
-  String url;
-  String age;
-  String sex;
 
-  CatBean(this.name, this.url, this.age, this.sex);
-}
-
-class PetAdoptionBean {
-  String title;
-  String number;
-
-  PetAdoptionBean(this.title, this.number);
-}

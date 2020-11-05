@@ -1,18 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/Bean/Pet.dart';
 import 'package:flutter_app/utils/onPetItemClick.dart';
-
-import '../widget/PetListWidget.dart';
-
-class DogWidget extends StatefulWidget {
-
-  @override
-  DogState createState() {
-    return new DogState();
-  }
-}
-
-class DogState extends State<DogWidget> implements OnPetItemClick{
+import 'package:flutter_app/widget/pet_item_widget.dart';
+// ignore: must_be_immutable
+class PetListWidget extends StatelessWidget {
+  PetListWidget({Key key}) : super(key: key);
   List<AdoptInfo> list = [
     AdoptInfo(
         "vickeyWang",
@@ -47,46 +39,30 @@ class DogState extends State<DogWidget> implements OnPetItemClick{
     ]),
 
   ];
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-
+  PetListWidget.name(this.list,this.onPetItemClick);
+  OnPetItemClick onPetItemClick;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return PetListWidget.name(list,this);
-  }
-
-  @override
-  void onAdpotClick(AdoptInfo adoptInfo) {
-
-  }
-
-  @override
-  void onCommentClick(AdoptInfo adoptInfo) {
-
-  }
-
-  @override
-  void onCollectClick(AdoptInfo adoptInfo) {
-
-  }
-
-  @override
-  void onShareClick(AdoptInfo adoptInfo) {
-
-  }
-
-  @override
-  void onCancelCollectClick(AdoptInfo adoptInfo) {
-
-  }
-
-  @override
-  void onPetPhotoClick(String url) {
-
+    return MediaQuery.removePadding(
+      removeTop: true,
+      context: context,
+      child: ListView.separated(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        separatorBuilder: (context, index) {
+          return Divider(
+            height: 10,
+            color: Colors.grey[300],
+            thickness: 10,
+          );
+        },
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: list.length,
+        itemBuilder: (_, index) {
+          return PetItemWidget.name(list.elementAt(index),onPetItemClick);
+        },
+      ),
+    );
   }
 }

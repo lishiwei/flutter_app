@@ -3,6 +3,7 @@ import 'package:flutter_app/main.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: must_be_immutable
 class LoginPage extends StatelessWidget {
   BuildContext buildContext;
 

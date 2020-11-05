@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/loginPage.dart';
 import 'package:flutter_app/splashWidget.dart';
-import 'package:flutter_app/tab/adoptWidget.dart';
+import 'package:flutter_app/tab/AdopterWidget.dart';
 import 'package:flutter_app/tab/myWidget.dart';
-import 'package:flutter_app/tab/publicWidget.dart';
+import 'file:///D:/githubstudyproject/flutter_app/lib/page/publicWidget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -86,16 +86,17 @@ class _MyHomePageState extends State<MyHomePage>
       tabs: <Tab>[
         Tab(
           // set icon to the tab
-          icon: Icon(Icons.favorite),
+          text: "领养",
         ),
         Tab(
-          icon: Icon(Icons.adb),
+          text: "发布",
+
         ),
         Tab(
-          icon: Icon(Icons.airport_shuttle),
+          text: "我的",
+
         ),
       ],
-      // setup the controller
       controller: controller,
       indicatorWeight: 0.1,
     );
@@ -114,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage>
     return Scaffold(
 
 
-      body: getTabBarView(<Widget>[AdoptWidget(), PublicWidget(), MyWidget()]),
+      body: getTabBarView(<Widget>[AdopterWidget(), PublicWidget(), MyWidget()]),
       bottomNavigationBar: Material(
         color: Colors.blue,
         child: getTabBar(),
