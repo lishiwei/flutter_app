@@ -12,13 +12,14 @@ class SelectPetPage extends StatefulWidget {
 }
 
 class _SelectPetPageState extends State<SelectPetPage>
-    implements OnItemClickListener {
+     {
   List<String> variety = ["全部", "喵", "汪"];
   List<String> sexy = ["全部", "男", "女"];
   List<String> age = ["全部", "0-1岁", "1-3岁", ">3岁"];
   List<String> medicalCondition = ["全部", "已绝育", "已免疫", "已驱虫"];
   List<int> initSelectedIndex = [0, 1, 2, 3];
-int initIndex= 1;
+  int initIndex = 1;
+
   @override
   void initState() {
     super.initState();
@@ -30,13 +31,16 @@ int initIndex= 1;
   }
 
   @override
-  onItemClick(List<String> list) {}
+  onItemClick(String) {}
 
   void onResetClick() {
-    print("aaaaaaaaaaa");
     setState(() {
       initSelectedIndex = [0, 0, 0, 0];
-      initIndex = 2;
+      initIndex = 0;
+      childKey.currentState.setSelectData(0, true);
+      childKey1.currentState.setSelectData(0, true);
+      childKey2.currentState.setSelectData(0, true);
+      childKey3.currentState.setSelectData(0, true);
     });
   }
 
@@ -57,19 +61,14 @@ int initIndex= 1;
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(padding: EdgeInsets.all(4)),
-                Text("品牌"),
-                FlowLayout(
-                  list: variety,
-                  // selectColor: Colors.yellow,
-                  listener: this,
-                  initSelectIndex: initIndex,
-                  maxSelectSize: 1,
-                ),
-                SelectPetItemWidget.name(sexy, "性别" ,initIndex,this),
-                SelectPetItemWidget.name(age, "年龄", initIndex, this,),
                 SelectPetItemWidget.name(
-                    medicalCondition, "医疗状况",initIndex, this,)
+                    variety, "品牌", initIndex, (index) => {}, childKey),
+                SelectPetItemWidget.name(
+                    sexy, "性别", initIndex, (index) => {}, childKey1),
+                SelectPetItemWidget.name(
+                    age, "年龄", initIndex, (index) => {}, childKey2),
+                SelectPetItemWidget.name(medicalCondition, "医疗状况", initIndex,
+                    (index) => {}, childKey3)
               ],
             ),
           ),
@@ -97,7 +96,7 @@ int initIndex= 1;
                         color: Colors.grey,
                         borderRadius: new BorderRadius.circular((14.0)), // 圆角度
                       )),
-                  onTap:onResetClick,
+                  onTap: onResetClick,
                 ),
                 InkWell(
                   child: Container(
@@ -126,20 +125,22 @@ int initIndex= 1;
     ;
   }
 }
-class SelectPetItemWidget extends StatefulWidget {
-  SelectPetItemWidget({Key key}) : super(key: key);
 
-  SelectPetItemWidget.name(
-      this.list, this.title, this.initSelectIndex, this.onItemClickListener);
+class SelectPetItemWidget extends StatefulWidget {
+  SelectPetItemWidget.name(this.list, this.title, this.initSelectIndex,
+      this.onItemClickListener, this.key);
+
+  Key key;
 
   List<String> list = ["全部", "喵", "汪"];
   String title;
   int initSelectIndex;
-  OnItemClickListener onItemClickListener;
+  Function(int) onItemClickListener;
 
   @override
   _SelectPetItemWidgetState createState() {
-    return _SelectPetItemWidgetState.name(list, title, initSelectIndex, onItemClickListener);
+    return _SelectPetItemWidgetState.name(
+        list, title, initSelectIndex, onItemClickListener, key);
   }
 }
 
@@ -154,18 +155,15 @@ class _SelectPetItemWidgetState extends State<SelectPetItemWidget> {
     super.dispose();
   }
 
-  _SelectPetItemWidgetState.name(
-      this.list, this.title, this.initSelectIndex, this.onItemClickListener);
+  _SelectPetItemWidgetState.name(this.list, this.title, this.initSelectIndex,
+      this.onItemClickListener, this.key);
 
-  List<String> list ;
+  List<String> list;
+
   String title;
   int initSelectIndex;
-  OnItemClickListener onItemClickListener;
-
-  @override
-  onItemClick(List<String> list) {
-    onItemClickListener.onItemClick(list);
-  }
+  Function(int) onItemClickListener;
+  Key key;
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +175,7 @@ class _SelectPetItemWidgetState extends State<SelectPetItemWidget> {
         Text(title),
         FlowLayout(
           list: list,
+          key1: key,
           // selectColor: Colors.yellow,
           listener: onItemClickListener,
           initSelectIndex: initSelectIndex,
@@ -186,4 +185,3 @@ class _SelectPetItemWidgetState extends State<SelectPetItemWidget> {
     );
   }
 }
-

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Adapt.dart';
 import 'package:flutter_app/Bean/Pet.dart';
+import 'package:flutter_app/page/my_adoptees_guardian.dart';
 
 import '../page/my_pet_widget.dart';
 
@@ -84,28 +85,44 @@ class MyState extends State<MyWidget> {
     }
   }
 
-  Widget getPetAdoptionItem(PetAdoptionBean petAdoptionBean) {
-    return Stack(children: <Widget>[
-      Container(
-        margin: EdgeInsets.all(4),
-        decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: Center(
-          child: Text(
-            petAdoptionBean.title,
+  Widget getPetAdoptionItem(PetAdoptionBean petAdoptionBean, int index) {
+    return GestureDetector(
+        child: Stack(children: <Widget>[
+          Container(
+            margin: EdgeInsets.all(4),
+            decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            child: Center(
+              child: Text(
+                petAdoptionBean.title,
+              ),
+            ),
           ),
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.all(4),
-        child: Align(
-          // child: Text(petAdoptionBean.number,style: TextStyle(color: Colors.red),),
-          child: getBadgeWidget(int.parse(petAdoptionBean.number)),
-          alignment: Alignment.topRight,
-        ),
-      )
-    ]);
+          Container(
+            margin: EdgeInsets.all(4),
+            child: Align(
+              // child: Text(petAdoptionBean.number,style: TextStyle(color: Colors.red),),
+              child: getBadgeWidget(int.parse(petAdoptionBean.number)),
+              alignment: Alignment.topRight,
+            ),
+          )
+        ]),
+        onTap: () {
+          onItemCLick(index);
+        });
+  }
+
+  void onItemCLick(int index) {
+    switch (index) {
+      case 0:
+        Navigator.push(context, MaterialPageRoute(builder: (buildContext) {
+          return MyAdopteesGuardian();
+        }));
+        break;
+      default:
+        print('none');
+    }
   }
 
   Widget getPetAdpot() {
@@ -132,7 +149,7 @@ class MyState extends State<MyWidget> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: petAdoptions.length,
                 itemBuilder: (context, index) {
-                  return getPetAdoptionItem(petAdoptions[index]);
+                  return getPetAdoptionItem(petAdoptions[index],index);
                 },
               ),
               padding:
@@ -392,5 +409,3 @@ class MyState extends State<MyWidget> {
     );
   }
 }
-
-

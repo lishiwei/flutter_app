@@ -3,7 +3,7 @@ import 'package:flutter_app/loginPage.dart';
 import 'package:flutter_app/splashWidget.dart';
 import 'package:flutter_app/tab/AdopterWidget.dart';
 import 'package:flutter_app/tab/myWidget.dart';
-import 'file:///D:/githubstudyproject/flutter_app/lib/page/publicWidget.dart';
+import 'file:///D:/githubstudyproject/flutter_app/lib/page/public_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

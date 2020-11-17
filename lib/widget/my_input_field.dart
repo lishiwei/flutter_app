@@ -47,7 +47,7 @@ class MyInputField extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(leftTips),
-                Expanded(child: Text("1")),
+                Expanded(child: Text("")),
                 right,
                 Image(
                   image: AssetImage("images/icon_next_gray.png"),
