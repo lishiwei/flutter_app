@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Adapt.dart';
 import 'package:flutter_app/Bean/Pet.dart';
 import 'package:flutter_app/page/my_adoptees_guardian.dart';
+import 'package:flutter_app/page/my_pet.dart';
 
 import '../page/my_pet_widget.dart';
 
@@ -51,6 +52,8 @@ class MyState extends State<MyWidget> {
             ),
             Image(
               image: AssetImage("images/icon_next_gray.png"),
+              height: 30,
+              width: 30,
             )
           ],
         ),
@@ -341,6 +344,7 @@ class MyState extends State<MyWidget> {
                 child: Column(
                   children: <Widget>[
                     Container(
+                      height: 50,
                       decoration: BoxDecoration(
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.only(
@@ -348,6 +352,7 @@ class MyState extends State<MyWidget> {
                             topRight: Radius.circular(10)),
                       ),
                       child: Row(
+
                         children: <Widget>[
                           Expanded(
                             child: Row(children: <Widget>[
@@ -367,9 +372,16 @@ class MyState extends State<MyWidget> {
                               )
                             ]),
                           ),
-                          Text("aaaa"),
+                          InkWell(child:  Text("全部11个"),onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (buildContext) {
+                              return Mypet();
+                            }));
+                          },),
+
                           Image(
                             image: AssetImage("images/icon_next_gray.png"),
+                            height: 30,
+                            width: 30,
                           )
                           // Expanded(child: Text("")),
                         ],
